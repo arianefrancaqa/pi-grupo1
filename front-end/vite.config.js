@@ -5,6 +5,17 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   define: {
-    __APP_ENV__: process.env.VITE_VERCEL_ENV,
+    "version": 2,
+    "builds": [
+      { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } },
+      { "src": "serverless/*.js", "use": "@vercel/node" }
+    ],
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/serverless/test.js"
+      }
+    ]
   }
+
 })
